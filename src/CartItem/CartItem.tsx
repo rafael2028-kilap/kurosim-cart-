@@ -1,13 +1,5 @@
-import {
-  Card,
-  Text,
-  Button,
-  Stack,
-  Group
-} from "@mantine/core"
-
-import { CartItem as CartItemType } from "@/features/cart/cartStore"
-import { useCartStore } from "@/features/cart/cartStore"
+import { CartItem as CartItemType } from "@/features/plans/types"
+import { saveCart, getCart } from "@/features/cart/cartStore"
 
 interface Props {
   item: CartItemType
@@ -15,45 +7,49 @@ interface Props {
 
 export default function CartItem({ item }: Props) {
 
-  const removeFromCart = useCartStore((s) => s.removeFromCart)
+  const removeItem = () => {
 
-  const total = item.plan.price * item.quantity
+    const cart = getCart().filter(i => i.id !== item.id)
+
+    saveCart(cart)
+
+  }
 
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
 
-      <Stack>
+    <div className="cartCard">
 
-        <Text fw={600}>
-          {item.plan.title}
-        </Text>
+      <div>
 
-        <Text size="sm">
-          Activation: {new Date(item.activationDate).toLocaleDateString()}
-        </Text>
+        <strong>{item.plan.title}</strong>
 
-        <Text size="sm">
-          Quantity: {item.quantity}
-        </Text>
+        <div className="cartInfo">
+          Activation: {item.activationDate}
+        </div>
 
-        <Text fw={500}>
-          Price: IDR {total.toLocaleString()}
-        </Text>
+        <div className="cartInfo">
+          Qty: {item.quantity}
+        </div>
 
-        <Group justify="flex-end">
+      </div>
 
-          <Button
-            size="xs"
-            color="red"
-            onClick={() => removeFromCart(item.id)}
-          >
-            Remove
-          </Button>
+      <div className="cartRight">
 
-        </Group>
+        <strong>
+          Rp {(item.plan.price * item.quantity).toLocaleString()}
+        </strong>
 
-      </Stack>
+        <button
+          className="removeBtn"
+          onClick={removeItem}
+        >
+          Remove
+        </button>
 
-    </Card>
+      </div>
+
+    </div>
+
   )
+
 }
