@@ -33,3 +33,19 @@ export const clearCart = () => {
   window.dispatchEvent(new Event("cartUpdated"))
 
 }
+
+/* LOAD CART SAAT APP START */
+
+export const loadCart = () => {
+
+  if (typeof window === "undefined") return
+
+  const data = localStorage.getItem(KEY)
+
+  if (data) {
+
+    window.dispatchEvent(new Event("cartUpdated"))
+
+  }
+
+}

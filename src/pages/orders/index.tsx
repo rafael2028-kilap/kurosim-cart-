@@ -1,98 +1,108 @@
 import Link from "next/link"
 import { getOrders, Order } from "@/utils/orderStorage"
+
 import { FaCheckCircle } from "react-icons/fa"
-import { FiCalendar } from "react-icons/fi"
-import { FiBox } from "react-icons/fi"
+import { FiCalendar, FiBox } from "react-icons/fi"
 
 export default function OrdersPage() {
 
-const orders: Order[] =
-typeof window !== "undefined"
-? getOrders().slice().reverse()
-: []
+  const orders: Order[] =
+    typeof window !== "undefined"
+      ? getOrders().slice().reverse()
+      : []
 
-return (
+  return (
 
-<div className="container">
+    <div className="container">
 
-<h1>My Orders</h1>
+      <h1>My Orders</h1>
 
-<p className="ordersSubtitle">
-Manage and view your purchased eSIM data plans.
-</p>
+      <p className="ordersSubtitle">
+        Manage and view your purchased eSIM data plans.
+      </p>
 
-{orders.length === 0 && (
-<p>No orders yet</p>
-)}
+      {orders.length === 0 && (
+        <p>No orders yet</p>
+      )}
 
-{orders.map(order => {
+      {orders.map(order => {
 
-const itemsText = order.items
-.map(i => `1x ${i.title}`)
-.join(", ")
+        const itemsText = order.items
+          .map(i => `1x ${i.title}`)
+          .join(", ")
 
-return (
+        return (
 
-<div key={order.id} className="orderCard">
+          <div key={order.id} className="orderCard">
 
-<div className="orderLeft">
+            {/* LEFT SIDE */}
 
-<div className="orderHeader">
+            <div className="orderLeft">
 
-<h3>
-ORD-{order.id.slice(0,4)}
-</h3>
+              {/* HEADER */}
 
-<span className="orderStatus">
-<FaCheckCircle />
-Completed
-</span>
+              <div className="orderHeader">
 
-<span className="orderDate">
-<FiCalendar />
-{new Date(order.createdAt).toLocaleDateString()}
-</span>
+                <h3 className="orderId">
+                  ORD-{order.id.slice(0, 4)}
+                </h3>
 
-</div>
+                <span className="orderStatus">
+                  <FaCheckCircle />
+                  Completed
+                </span>
 
-<p className="orderItems">
-{itemsText}
-</p>
+                <span className="orderDate">
+                  <FiCalendar />
+                  {new Date(order.createdAt).toLocaleDateString()}
+                </span>
 
-<div className="orderMeta">
+              </div>
 
-<span>
-Rp {order.total.toLocaleString()}
-</span>
+              {/* ITEMS */}
 
-<span className="orderItemCount">
-<FiBox />
-{order.items.length} items
-</span>
+              <p className="orderItems">
+                {itemsText}
+              </p>
 
-</div>
+              {/* META */}
 
-</div>
+              <div className="orderMeta">
 
-<div className="orderAction">
+                <span className="orderPrice">
+                  Rp {order.total.toLocaleString()}
+                </span>
 
-<Link
-href={`/orders/${order.id}`}
-className="viewBtn"
->
-View Details →
-</Link>
+                <span className="orderItemCount">
+                  <FiBox />
+                  {order.items.length} items
+                </span>
 
-</div>
+              </div>
 
-</div>
+            </div>
 
-)
+            {/* ACTION */}
 
-})}
+            <div className="orderAction">
 
-</div>
+              <Link
+                href={`/orders/${order.id}`}
+                className="viewBtn"
+              >
+                View Details →
+              </Link>
 
-)
+            </div>
+
+          </div>
+
+        )
+
+      })}
+
+    </div>
+
+  )
 
 }

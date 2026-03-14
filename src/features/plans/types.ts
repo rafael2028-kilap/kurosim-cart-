@@ -1,5 +1,6 @@
 export interface Plan {
   id: string
+  region: string
   country: string
   title: string
   data: string
