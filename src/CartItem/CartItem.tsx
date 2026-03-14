@@ -1,5 +1,5 @@
 import { CartItem as CartItemType } from "@/features/plans/types"
-import { saveCart, getCart } from "@/features/cart/cartStore"
+import { getCart, saveCart } from "@/features/cart/cartStore"
 
 interface Props {
   item: CartItemType
