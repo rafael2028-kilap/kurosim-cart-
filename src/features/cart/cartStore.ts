@@ -29,7 +29,6 @@ export const clearCart = () => {
 
   localStorage.removeItem(KEY)
 
-  // trigger event juga
   window.dispatchEvent(new Event("cartUpdated"))
 
 }
@@ -43,9 +42,7 @@ export const loadCart = () => {
   const data = localStorage.getItem(KEY)
 
   if (data) {
-
     window.dispatchEvent(new Event("cartUpdated"))
-
   }
 
 }
